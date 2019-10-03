@@ -16,5 +16,13 @@ public class NewHelicopterLogic extends NewMasterSpriteWithLogic {
 
     @Override
     public void executeThingsToDo() {
+        if (getCurrentImageIndex() >=3 ) {
+            setCurrentImageToIndex(0);
+        }
+        else setCurrentImageToIndex(getCurrentImageIndex()+1);
+
+        setLocationRelative(+1,0);
+
+        System.out.println("execute");
     }
 }

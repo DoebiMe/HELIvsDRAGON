@@ -3,19 +3,44 @@ package com.doubbel.javafxtest;
 import com.doubbel.javafxtest.NewSpriteLogic;
 
 public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
+
     private int xPos;
     private int yPos;
     int setPointTimeTaskDivider;
     int currentTimeTaskDivider;
     int currentImageIndex;
+    int indexOnUI = -1;
     private boolean changedCondition;
+    private static boolean areImagesLoaded;
 
     public NewMasterSpriteWithLogic() {
-        loadAllImagesToList();
+       // if (!areImagesLoaded) {
+            loadAllImagesToList();
+            areImagesLoaded = true;
+      //  }
     }
 
     @Override
-    public void setCurrentImageWithIndex(int index) {
+    public int getxPos() {
+        return xPos;
+    }
+
+    @Override
+    public int getyPos() {
+        return yPos;
+    }
+
+    @Override
+    public void setIndexOnUI(int index) {
+        indexOnUI = index;
+    }
+    @Override
+    public int getIndexOnUI() {
+        return indexOnUI;
+    }
+
+    @Override
+    public void setCurrentImageToIndex(int index) {
         currentImageIndex = index;
         changedCondition = true;
     }
