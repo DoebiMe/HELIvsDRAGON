@@ -1,9 +1,7 @@
 package com.doubbel.javafxtest;
 
-import javax.swing.text.html.ImageView;
-
-public class Coalission {
-    public static boolean isCoalission(Sprite firstObject,Sprite secondObject) {
+public class oldCoalission {
+    public static boolean isCoalission(oldSprite firstObject, oldSprite secondObject) {
 /*
         int x1,x2,y1,y2; // firstObject
         x1 = firstObject.getXpos();
