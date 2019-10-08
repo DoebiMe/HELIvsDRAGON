@@ -1,23 +1,39 @@
 package com.doubbel.javafxtest;
 
 import com.doubbel.javafxtest.NewSpriteLogic;
+import javafx.scene.image.ImageView;
 
 public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
 
     private int xPos;
     private int yPos;
-    int setPointTimeTaskDivider;
-    int currentTimeTaskDivider;
-    int currentImageIndex;
-    int indexOnUI = -1;
+    private int setPointTimeTaskDivider;
+    private int currentTimeTaskDivider;
+    private int currentImageIndex;
     private boolean changedCondition;
-    private static boolean areImagesLoaded;
 
-    public NewMasterSpriteWithLogic() {
-       // if (!areImagesLoaded) {
-            loadAllImagesToList();
-            areImagesLoaded = true;
-      //  }
+    @Override
+    public ImageView getImageView() {
+        return imageView;
+    }
+    @Override
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    private ImageView imageView;
+
+
+
+    public NewSpriteLogicType getTypeLogic() {
+        return typeLogic;
+    }
+
+    private NewSpriteLogicType typeLogic;
+
+    NewMasterSpriteWithLogic(NewSpriteLogicType type) {
+        this.typeLogic = type;
+        loadAllImagesToList();
     }
 
     @Override
@@ -28,15 +44,6 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     @Override
     public int getyPos() {
         return yPos;
-    }
-
-    @Override
-    public void setIndexOnUI(int index) {
-        indexOnUI = index;
-    }
-    @Override
-    public int getIndexOnUI() {
-        return indexOnUI;
     }
 
     @Override
@@ -89,12 +96,13 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     public boolean executeThingsToDoDependingOnCurrentTimeTaskDivider() {
         currentTimeTaskDivider--;
         if (currentTimeTaskDivider <= 0) {
-           currentTimeTaskDivider = setPointTimeTaskDivider;
+            currentTimeTaskDivider = setPointTimeTaskDivider;
             executeThingsToDo();
-           return true;
+            return true;
         }
         return false;
     }
+
     @Override
     public abstract void executeThingsToDo();
 

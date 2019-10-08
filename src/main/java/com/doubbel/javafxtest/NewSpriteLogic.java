@@ -3,8 +3,9 @@ package com.doubbel.javafxtest;
 import javafx.scene.image.ImageView;
 
 public interface NewSpriteLogic {
-    public int getxPos() ;
-    public int getyPos() ;
+    int getxPos() ;
+    int getyPos() ;
+    NewSpriteLogicType getTypeLogic();
     void setLocationAbsolute(int xPos, int yPos);
     void setLocationRelative(int xMovement, int yMovement);
     NewSpriteLogic setSetPointTimeTaskDivider(int setPointTimeTaskDivider);
@@ -13,9 +14,9 @@ public interface NewSpriteLogic {
     void executeThingsToDo();
     void setCurrentImageToIndex(int index);
     int getCurrentImageIndex();
-    void setIndexOnUI(int index);
-    int getIndexOnUI();
     void loadAllImagesToList();
     boolean isChangedStateForUI();
     void setToUnChangedState();
+    ImageView getImageView() ;
+    void setImageView(ImageView imageView);
 }

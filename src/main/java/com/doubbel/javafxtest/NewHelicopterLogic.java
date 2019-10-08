@@ -1,28 +1,40 @@
 package com.doubbel.javafxtest;
 
 public class NewHelicopterLogic extends NewMasterSpriteWithLogic {
+    public NewHelicopterLogic() {
+        super( NewSpriteLogicType.HELICOPTER);
+    }
+
     @Override
     public void loadAllImagesToList() {
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("heli-1.png", 0);
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("heli-2.png", 1);
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("heli-3.png", 2);
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("heli-4.png", 3);
-
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("heli-1.png", 1);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("heli-2.png", 2);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("heli-3.png", 3);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("heli-4.png", 4);
     }
 
     @Override
     public void executeThingsToDo() {
-        if (getCurrentImageIndex() >=3 ) {
-            setCurrentImageToIndex(0);
+        processKeyInputFromUI();
+        if (getCurrentImageIndex() >=4 ) {
+            setCurrentImageToIndex(1);
         }
         else setCurrentImageToIndex(getCurrentImageIndex()+1);
+        //setLocationRelative(+1,0);
+    }
 
-        setLocationRelative(+1,0);
-
-        System.out.println("execute");
+    private void processKeyInputFromUI() {
+       if (NewKeyHandler.keysOfInterest[NewKeyHandler.keyDn])
+           setLocationRelative(0,1);
+       if (NewKeyHandler.keysOfInterest[NewKeyHandler.keyUp])
+           setLocationRelative(0,-1);
+       if (NewKeyHandler.keysOfInterest[NewKeyHandler.keyLt])
+           setLocationRelative(-1,0);
+       if (NewKeyHandler.keysOfInterest[NewKeyHandler.keyRt])
+           setLocationRelative(+1,0);
     }
 }

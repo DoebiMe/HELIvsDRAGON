@@ -1,23 +1,26 @@
 package com.doubbel.javafxtest;
 
 public class NewDragonLogic extends NewMasterSpriteWithLogic {
+    NewDragonLogic() {
+        super(NewSpriteLogicType.DRAGON);
+    }
+
     @Override
     public void loadAllImagesToList() {
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("dr1.png", 4);
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("dr2.png", 5);
-        NewSpriteFunctionsAndImageHolder.
-                isSuccesLoadImageToListAtIndex("dr3", 6);
-        setCurrentImageToIndex(10);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("dr1.png", 5);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("dr2.png", 6);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("dr3.png", 7);
+        setCurrentImageToIndex(5);
     }
 
     @Override
     public void executeThingsToDo() {
-        if (getCurrentImageIndex() >= 6) {
-            setCurrentImageToIndex(4);
+        if (getCurrentImageIndex() >= 7) {
+            setCurrentImageToIndex(5);
         } else setCurrentImageToIndex(getCurrentImageIndex() + 1);
-
-        setLocationRelative(-1, 0);
+        setLocationRelative(-3, 0);
     }
 }
