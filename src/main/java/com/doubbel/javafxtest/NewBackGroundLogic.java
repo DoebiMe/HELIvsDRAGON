@@ -2,7 +2,7 @@ package com.doubbel.javafxtest;
 
 public class NewBackGroundLogic extends NewMasterSpriteWithLogic {
 
-    private final long BACKGROUND_RESET_POINT_HORIZONTAL = 5996-NewUI.SCREEN_MAX_WIDTH;
+    private final long BACKGROUND_RESET_POINT_HORIZONTAL = 5996 - NewUI.SCREEN_MAX_WIDTH;
 
     NewBackGroundLogic() {
         super(NewSpriteLogicType.BACKGROUND);
@@ -22,7 +22,7 @@ public class NewBackGroundLogic extends NewMasterSpriteWithLogic {
     public void loadAllImagesToList() {
         NewImageListAndFunctions.
                 loadImageReturnSuccesCondition("tryout.png", 0);
-                //loadImageReturnSuccesCondition("background.png", 0);
+        //loadImageReturnSuccesCondition("background.png", 0);
 
     }
 }

@@ -16,13 +16,13 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     public ImageView getImageView() {
         return imageView;
     }
+
     @Override
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
     }
 
     private ImageView imageView;
-
 
 
     public NewSpriteLogicType getTypeLogic() {

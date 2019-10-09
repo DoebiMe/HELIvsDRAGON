@@ -12,6 +12,7 @@ public class NewTaskDelegator {
     private ArrayList<NewSpriteLogic> spritesToWaste = new ArrayList<>();
     private NewBulletsLogic myBulletsLogic = new NewBulletsLogic();
     private NewSpriteLogic myHeliLogic = null;
+    private NewScoreBoard myScoreBoard = null;
     private static int bulletCreateDivider = 0;
     private static final int BULLET_DIVIDER_SET_POINT = 20;
     private boolean isInitialized = false;
@@ -37,6 +38,9 @@ public class NewTaskDelegator {
                 new NewHelicopterLogic().setSetPointTimeTaskDivider(2);
         allSprites.add(myHeliLogic);
         myHeliLogic.setImageView(NewUI.addSpriteToUIReturnImageView());
+
+        myScoreBoard = new NewScoreBoard();
+
         isInitialized = true;
     }
 
@@ -55,6 +59,7 @@ public class NewTaskDelegator {
 
     private void createBullet() {
         if (bulletCreateDivider == BULLET_DIVIDER_SET_POINT) {
+            myScoreBoard.updateBulletsRelative(+1);
             myHeliLogic = getMyHeliLogic();
             NewSpriteLogic bulletToAdd =
                     myBulletsLogic.
@@ -73,12 +78,15 @@ public class NewTaskDelegator {
         Random rand = new Random();
         if (rand.nextInt(300) == 10) {
             NewSpriteLogic myDragonLogic =
-                    new NewDragonLogic().setSetPointTimeTaskDivider(rand.nextInt(5) + 10);
+                    new NewDragonLogic().setSetPointTimeTaskDivider(rand.nextInt(10) + 3);
             myDragonLogic.
                     setLocationAbsolute(NewUI.OUT_OF_SCREEN_MAX_WIDTH + rand.nextInt(50),
                             rand.nextInt(NewUI.SCREEN_MAX_HEIGHT));
             allSprites.add(myDragonLogic);
             myDragonLogic.setImageView(NewUI.addSpriteToUIReturnImageView());
+            double scaleFactor = 0.3 + rand.nextInt(12) * 0.1;
+            myDragonLogic.getImageView().setScaleX(scaleFactor);
+            myDragonLogic.getImageView().setScaleY(scaleFactor);
         }
     }
 
@@ -139,6 +147,7 @@ public class NewTaskDelegator {
                 if (NewUI.isCollisionBasedOnImageView(
                         dragonToTest.getImageView(),
                         bulletToTest.getImageView())) {
+                    myScoreBoard.updateHitsRelative(+1);
                     spritesToWaste.add(dragonToTest);
                     spritesToWaste.add(bulletToTest);
                     return;

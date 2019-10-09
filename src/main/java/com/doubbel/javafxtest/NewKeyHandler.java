@@ -30,14 +30,14 @@ public class NewKeyHandler {
     public static boolean[] keysOfInterest = new boolean[11];
 
     public void handleKeyPressed(KeyEvent keyEvent) {
-        getKeyEvent(true,keyEvent);//, keysOfInterest, keyUpLt, keyUpRt, keyDnLt, keyDnRt, keyUp, keyDn, keyLt, keyRt, keySpace, keyEsc, keyEnter);
+        getKeyEvent(true, keyEvent);//, keysOfInterest, keyUpLt, keyUpRt, keyDnLt, keyDnRt, keyUp, keyDn, keyLt, keyRt, keySpace, keyEsc, keyEnter);
     }
 
     public void handleKeyReleased(KeyEvent keyEvent) {
-        getKeyEvent(false,keyEvent);//, keysOfInterest, keyUpLt, keyUpRt, keyDnLt, keyDnRt, keyUp, keyDn, keyLt, keyRt, keySpace, keyEsc, keyEnter);
+        getKeyEvent(false, keyEvent);//, keysOfInterest, keyUpLt, keyUpRt, keyDnLt, keyDnRt, keyUp, keyDn, keyLt, keyRt, keySpace, keyEsc, keyEnter);
     }
 
-    static void getKeyEvent(boolean valueToSet,KeyEvent keyEvent){//, boolean[] keysOfInterest, int keyUpLt, int keyUpRt, int keyDnLt, int keyDnRt, int keyUp, int keyDn, int keyLt, int keyRt, int keySpace, int keyEsc, int keyEnter) {
+    static void getKeyEvent(boolean valueToSet, KeyEvent keyEvent) {//, boolean[] keysOfInterest, int keyUpLt, int keyUpRt, int keyDnLt, int keyDnRt, int keyUp, int keyDn, int keyLt, int keyRt, int keySpace, int keyEsc, int keyEnter) {
         switch (keyEvent.getCode()) {
             case NUMPAD7:
                 keysOfInterest[keyUpLt] = valueToSet;

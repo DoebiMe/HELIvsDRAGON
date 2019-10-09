@@ -15,9 +15,10 @@ public class NewScene extends Scene {
 
     NewScene(Pane aPane, int width, int height) {
         super(aPane, width, height);
-        System.out.println("Inside SceneWithKeyAndTaskEvent "+aPane.toString());
+        System.out.println("Inside SceneWithKeyAndTaskEvent " + aPane.toString());
         initializeMyNodes(aPane);
     }
+
     public ObservableList<Node> getMyNodes() {
         return myNodes;
     }
@@ -26,7 +27,6 @@ public class NewScene extends Scene {
         myNodes = myPane.getChildren();
         //myNodes.addAll(myHelicopter.getCurrentImageView());
     }
-
 
 
 }

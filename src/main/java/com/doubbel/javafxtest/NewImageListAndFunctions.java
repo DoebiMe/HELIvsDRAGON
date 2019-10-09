@@ -1,16 +1,14 @@
 package com.doubbel.javafxtest;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 
 
 class NewImageListAndFunctions {
     private static final String FIRST_PART_PATH_TO_IMAGES =
             "C:\\fork\\JavaFXTest\\src\\main\\java\\com\\doubbel\\javafxtest\\Images\\";
-    private static final int MAX_IMAGES_IN_LIST = 100;
+    static final int MAX_IMAGES_IN_LIST = 100;
     private static final int MAX_INDEX_TYPES = 3;
     private static Object[][] allImages = new Object[MAX_IMAGES_IN_LIST][MAX_INDEX_TYPES];
 
@@ -39,7 +37,7 @@ class NewImageListAndFunctions {
                 allImages[index][indexTypes.IS_LOADED.value()] = false;
             }
         }
-        return (boolean)allImages[index][indexTypes.IS_LOADED.value()];
+        return (boolean) allImages[index][indexTypes.IS_LOADED.value()];
     }
 
     static Image getImageFromListAtIndex(int index) {
