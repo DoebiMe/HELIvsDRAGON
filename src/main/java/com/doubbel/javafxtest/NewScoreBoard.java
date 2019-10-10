@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class NewScoreBoard {
+
+    public enum ThingsToDo{NORMAL,TURN_HITS};
+    private double turnHitsValue;
+    private ThingsToDo thingsToDo;
+
     private static final int MAX_NODES_FOR_BULLETS = 5;
     private static final int MAX_NODES_FOR_HITS = 5;
     private static final int MAX_NODES_FOR_LIVES = 2;
@@ -17,13 +22,52 @@ class NewScoreBoard {
     private int bulletNumber = 0;
     private int hitNumber = 0;
     private int liveNumber = 0;
+    private int currentTimeTaskDivider;
+    private int setPointTimeTaskDivider;
 
-    NewScoreBoard() {
+
+    NewScoreBoard(int setPointTimeTaskDivider) {
+        this.setPointTimeTaskDivider = setPointTimeTaskDivider;
+        currentTimeTaskDivider = setPointTimeTaskDivider;
+        turnHitsValue = 1;
         loadAllImagesToList();
         createNodesForBullets();
         createNodesForHits();
         createNodesForLives();
     }
+
+
+    void setThingsToDo(ThingsToDo thingsToDo){
+        this.thingsToDo = thingsToDo;
+    }
+
+    boolean executeThingsToDoDependingOnCurrentTimeTaskDivider() {
+        System.out.println("Before");
+        if (thingsToDo == ThingsToDo.NORMAL) return false;
+        System.out.println("After "+currentTimeTaskDivider);
+        if (--currentTimeTaskDivider <= 0) {
+            currentTimeTaskDivider = setPointTimeTaskDivider;
+            executeThingsToDo();
+            return true;
+        }
+        return false;
+    }
+    private void executeThingsToDo(){
+        System.out.println("jaja" + turnHitsValue);
+        if (thingsToDo == ThingsToDo.TURN_HITS) {
+            if (turnHitsValue > 0) {
+                for (ImageView hitView : nodesForHits) {
+                    turnHitsValue -= 0.1;
+                    NewUI.rotateSprite(hitView,(int)(turnHitsValue * 40) );
+                }
+            } else
+            {
+                turnHitsValue = 1;
+                thingsToDo = ThingsToDo.NORMAL;
+            }
+        }
+    }
+
 
     void updateBulletsRelative(int relativeNumber) {
         bulletNumber += relativeNumber;
@@ -34,6 +78,7 @@ class NewScoreBoard {
         hitNumber += relativeNumber;
         fillNodeArrayWithCharArray(nodesForHits, getNumberAsCharArray(hitNumber, MAX_NODES_FOR_HITS));
     }
+
     void updateLivesRelative(int relativeNumber) {
         liveNumber += relativeNumber;
         fillNodeArrayWithCharArray(nodesForLives, getNumberAsCharArray(hitNumber, MAX_NODES_FOR_LIVES));
@@ -43,10 +88,9 @@ class NewScoreBoard {
         if (nodes.length != chars.length) throw new
                 IllegalArgumentException("Argument length not compatible in fillNodeArrayWithCharArray");
         for (int indexer = 0; indexer < nodes.length; indexer++) {
-            nodes[indexer].setImage(
-                    NewImageListAndFunctions.
-                            getImageFromListAtIndex(START_INDEX_IMAGE_ARRAY +
-                                    getCorrespondingNumberOfChar(chars[indexer])));
+            NewUI.updateSpriteImage(
+                    nodes[indexer],
+                    START_INDEX_IMAGE_ARRAY + getCorrespondingNumberOfChar(chars[indexer]));
         }
     }
 
@@ -76,31 +120,28 @@ class NewScoreBoard {
     }
 
     private void createNodesForLives() {
-        for (int indexer = 0; indexer < MAX_NODES_FOR_LIVES; indexer++) {
-            initialiseNodesWithImage(indexer, nodesForLives, 340);
-        }
+        initialiseNodes(MAX_NODES_FOR_LIVES, nodesForLives, 340);
     }
 
     private void createNodesForHits() {
-        for (int indexer = 0; indexer < MAX_NODES_FOR_HITS; indexer++) {
-            initialiseNodesWithImage(indexer, nodesForHits, 180);
+        initialiseNodes(MAX_NODES_FOR_HITS, nodesForHits, 180);
+    }
+    private void initialiseNodes(int maxNodes, ImageView[] nodes, int i) {
+        for (int indexer = 0; indexer < maxNodes; indexer++) {
+            initialiseNodesWithImage(indexer, nodes, i);
         }
     }
 
+
     private void createNodesForBullets() {
-        for (int indexer = 0; indexer < MAX_NODES_FOR_BULLETS; indexer++) {
-            initialiseNodesWithImage(indexer, nodesForBullets, 20);
-        }
+        initialiseNodes(MAX_NODES_FOR_BULLETS, nodesForBullets, 20);
     }
 
     private void initialiseNodesWithImage(int indexer, ImageView[] nodes, int horizontalStartPosition) {
-        nodes[indexer] = NewUI.addSpriteToUIReturnImageView();
-        nodes[indexer].
-                setImage(NewImageListAndFunctions.getImageFromListAtIndex(START_INDEX_IMAGE_ARRAY));
-        nodes[indexer].setLayoutX(horizontalStartPosition + indexer * 25);
-        nodes[indexer].setLayoutY(-30);
-        nodes[indexer].setScaleX(0.4);
-        nodes[indexer].setScaleY(0.4);
-        nodes[indexer].setRotate( nodes[indexer].getRotate() + 50);
+        nodes[indexer] = NewUI.createNodeOnUI();
+        NewUI.updateSpriteImage(nodes[indexer],START_INDEX_IMAGE_ARRAY);
+        NewUI.positionSprite(nodes[indexer],horizontalStartPosition + indexer * 25,-30);
+        NewUI.scaleSprite(nodes[indexer],0.4);
+        NewUI.rotateSprite(nodes[indexer],25);
     }
 }

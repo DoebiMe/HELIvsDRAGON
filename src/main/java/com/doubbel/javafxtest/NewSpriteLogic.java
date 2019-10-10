@@ -2,7 +2,7 @@ package com.doubbel.javafxtest;
 
 import javafx.scene.image.ImageView;
 
-public interface NewSpriteLogic {
+interface NewSpriteLogic {
     int getxPos();
 
     int getyPos();

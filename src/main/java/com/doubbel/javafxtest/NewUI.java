@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -13,9 +12,9 @@ public class NewUI extends Application {
     static final int SCREEN_MAX_HEIGHT = 514;
     private static final int OUT_OF_SCREEN_ZONE = 100;
     static final int OUT_OF_SCREEN_MAX_WIDTH = SCREEN_MAX_WIDTH + OUT_OF_SCREEN_ZONE;
-    public static final int OUT_OF_SCREEN_MAX_HEIGHT = SCREEN_MAX_HEIGHT + OUT_OF_SCREEN_ZONE;
+    static final int OUT_OF_SCREEN_MAX_HEIGHT = SCREEN_MAX_HEIGHT + OUT_OF_SCREEN_ZONE;
     static final int OUT_OF_SCREEN_MIN_WIDTH = 0 - OUT_OF_SCREEN_ZONE;
-    public static final int OUT_OF_SCREEN_MIN_HEIGTH = 0 - OUT_OF_SCREEN_ZONE;
+    static final int OUT_OF_SCREEN_MIN_HEIGTH = 0 - OUT_OF_SCREEN_ZONE;
     private static ObservableList<Node> myNodes;
     private static Pane myPane = null;
     private static boolean initialized = false;
@@ -23,18 +22,12 @@ public class NewUI extends Application {
 
     static void setPane(Pane paneToUse) {
         myPane = paneToUse;
-        myPane.setBorder(Border.EMPTY);
         myNodes = myPane.getChildren();
-        System.out.println("Pane and node set");
         initialized = true;
     }
 
     static boolean isInitialized() {
         return initialized;
-    }
-
-    static Pane getMyPane() {
-        return myPane;
     }
 
     static void main(String[] args) {
@@ -45,25 +38,37 @@ public class NewUI extends Application {
         return first.getBoundsInParent().intersects(second.getBoundsInParent());
     }
 
-    static ImageView addSpriteToUIReturnImageView() {
+    static ImageView createNodeOnUI() {
         ImageView imageView = new ImageView();
         myNodes.addAll(imageView);
         return imageView;
     }
 
-    static int getIndexOfImageView(ImageView imageView) {
-        return myNodes.indexOf(imageView);
+    static  void updateSpriteImage(ImageView imageView, int imageIndex) {
+        imageView.setImage(NewImageListAndFunctions.getImageFromListAtIndex(imageIndex));
     }
 
+    static void  positionSprite(ImageView imageView, int x, int y) {
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(y);
+    }
+
+    static void rotateSprite(ImageView imageView, int degree) {
+        imageView.setRotate(degree);
+    }
+
+    static void scaleSprite(ImageView imageView, double scale) {
+        imageView.setScaleY(scale);
+        imageView.setScaleX(scale);
+    }
 
     static void updateSpriteOnUI(NewSpriteLogic spriteToUpdate) {
         ImageView nodeToUpdate = spriteToUpdate.getImageView();
-        if (nodeToUpdate != null) {
-            nodeToUpdate.setLayoutX(spriteToUpdate.getxPos());
-            nodeToUpdate.setLayoutY(spriteToUpdate.getyPos());
-            nodeToUpdate.setImage(NewImageListAndFunctions.
-                    getImageFromListAtIndex(spriteToUpdate.getCurrentImageIndex()));
-        }
+        if (nodeToUpdate == null) return ;
+        nodeToUpdate.setLayoutX(spriteToUpdate.getxPos());
+        nodeToUpdate.setLayoutY(spriteToUpdate.getyPos());
+        nodeToUpdate.setImage(NewImageListAndFunctions.
+                getImageFromListAtIndex(spriteToUpdate.getCurrentImageIndex()));
     }
 
     static void wasteNode(ImageView imageViewToWaste) {

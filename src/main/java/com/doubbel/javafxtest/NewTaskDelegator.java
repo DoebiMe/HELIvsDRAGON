@@ -1,7 +1,6 @@
 package com.doubbel.javafxtest;
 
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,20 +26,19 @@ public class NewTaskDelegator {
         loopOverAllSpritesForCollisionTest();
         disposeSpritesToWaste();
         handleKeysFromUI();
+        myScoreBoard.executeThingsToDoDependingOnCurrentTimeTaskDivider();
     }
 
     private void initializeDelegator() {
         NewSpriteLogic myBackgroundLogic =
                 new NewBackGroundLogic().setSetPointTimeTaskDivider(7);
         allSprites.add(myBackgroundLogic);
-        myBackgroundLogic.setImageView(NewUI.addSpriteToUIReturnImageView());
-        NewSpriteLogic myHeliLogic =
-                new NewHelicopterLogic().setSetPointTimeTaskDivider(2);
+        myBackgroundLogic.setImageView(NewUI.createNodeOnUI());
+        myHeliLogic = new NewHelicopterLogic().setSetPointTimeTaskDivider(2);
         allSprites.add(myHeliLogic);
-        myHeliLogic.setImageView(NewUI.addSpriteToUIReturnImageView());
+        myHeliLogic.setImageView(NewUI.createNodeOnUI());
 
-        myScoreBoard = new NewScoreBoard();
-
+        myScoreBoard = new NewScoreBoard(10);
         isInitialized = true;
     }
 
@@ -66,9 +64,8 @@ public class NewTaskDelegator {
                             createBullet(myHeliLogic.getxPos() + 50,
                                     myHeliLogic.getyPos() + 20);
             allSprites.add(bulletToAdd);
-            ImageView bulletToAddImageView = NewUI.addSpriteToUIReturnImageView();
-            bulletToAddImageView.setScaleX(0.2);
-            bulletToAddImageView.setScaleY(0.2);
+            ImageView bulletToAddImageView = NewUI.createNodeOnUI();
+            NewUI.scaleSprite(bulletToAddImageView, 0.2);
             bulletToAdd.setImageView(bulletToAddImageView);
         }
         if (--bulletCreateDivider <= 0) bulletCreateDivider = BULLET_DIVIDER_SET_POINT;
@@ -79,14 +76,12 @@ public class NewTaskDelegator {
         if (rand.nextInt(300) == 10) {
             NewSpriteLogic myDragonLogic =
                     new NewDragonLogic().setSetPointTimeTaskDivider(rand.nextInt(10) + 3);
+            allSprites.add(myDragonLogic);
             myDragonLogic.
                     setLocationAbsolute(NewUI.OUT_OF_SCREEN_MAX_WIDTH + rand.nextInt(50),
                             rand.nextInt(NewUI.SCREEN_MAX_HEIGHT));
-            allSprites.add(myDragonLogic);
-            myDragonLogic.setImageView(NewUI.addSpriteToUIReturnImageView());
-            double scaleFactor = 0.3 + rand.nextInt(12) * 0.1;
-            myDragonLogic.getImageView().setScaleX(scaleFactor);
-            myDragonLogic.getImageView().setScaleY(scaleFactor);
+            myDragonLogic.setImageView(NewUI.createNodeOnUI());
+            NewUI.scaleSprite(myDragonLogic.getImageView(), 0.3 + rand.nextInt(12) * 0.1);
         }
     }
 
@@ -101,10 +96,9 @@ public class NewTaskDelegator {
     }
 
     private NewSpriteLogic getMyHeliLogic() {
-        List<NewSpriteLogic> heliList = allSprites.stream().
-                filter(element -> element.getTypeLogic() == NewSpriteLogicType.HELICOPTER).
-                collect(Collectors.toList());
-        return heliList.get(0);
+        return allSprites.stream()
+                .filter(element -> element.getTypeLogic() == NewSpriteLogicType.HELICOPTER)
+                .findFirst().get();
     }
 
     private void loopOverAllSpritesForEOLCheck() {
@@ -113,18 +107,15 @@ public class NewTaskDelegator {
     }
 
     private void loopOverAllBulletsForEOLCheck() {
-        List<NewSpriteLogic> listBullets = getSpritesOfType(NewSpriteLogicType.BULLET);
-        listBullets.forEach(bulletToTest -> {
-            if (bulletToTest.getxPos() > NewUI.OUT_OF_SCREEN_MAX_WIDTH)
-                spritesToWaste.add(bulletToTest);
-        });
+        getSpritesOfType(NewSpriteLogicType.BULLET).stream().
+                filter(bulletToTest -> bulletToTest.getxPos() > NewUI.OUT_OF_SCREEN_MAX_WIDTH)
+                .forEach(spritesToWaste::add);
     }
 
     private void loopOverAllDragonsForEOLCheck() {
-        List<NewSpriteLogic> listDragons = getSpritesOfType(NewSpriteLogicType.DRAGON);
-        listDragons.forEach(dragonToTest -> {
-            if (dragonToTest.getxPos() <= NewUI.OUT_OF_SCREEN_MIN_WIDTH) spritesToWaste.add(dragonToTest);
-        });
+        getSpritesOfType(NewSpriteLogicType.DRAGON).stream().
+                filter(dragonToTest -> dragonToTest.getxPos() <= NewUI.OUT_OF_SCREEN_MIN_WIDTH).
+                forEach(spritesToWaste::add);
     }
 
     private void loopOverAllSpritesForToExecuteLogic() {
@@ -132,11 +123,8 @@ public class NewTaskDelegator {
     }
 
     private void loopOverAllSpritesForToUpdateUI() {
-        allSprites.
-                forEach(spriteToUpdate ->
-                {
-                    if (spriteToUpdate.isChangedStateForUI()) NewUI.updateSpriteOnUI(spriteToUpdate);
-                });
+        allSprites.stream().filter(NewSpriteLogic::isChangedStateForUI).
+                forEach(NewUI::updateSpriteOnUI);
     }
 
     private void loopOverAllSpritesForCollisionTest() {
@@ -148,20 +136,21 @@ public class NewTaskDelegator {
                         dragonToTest.getImageView(),
                         bulletToTest.getImageView())) {
                     myScoreBoard.updateHitsRelative(+1);
+                    myScoreBoard.setThingsToDo(NewScoreBoard.ThingsToDo.TURN_HITS);
                     spritesToWaste.add(dragonToTest);
                     spritesToWaste.add(bulletToTest);
                     return;
                 }
             }
         }
-        ImageView heliImageView = getMyHeliLogic().getImageView();
+        ImageView
+                heliImageView = getMyHeliLogic().getImageView();
         for (NewSpriteLogic dragonToTest : listDragons) {
             if (NewUI.isCollisionBasedOnImageView(
                     dragonToTest.getImageView(), heliImageView)) {
-                System.out.println("DRAGON HIT HELI BABY **************");
+                System.out.println("DRAGON HIT HELI **************");
                 return;
             }
         }
     }
 }
-
