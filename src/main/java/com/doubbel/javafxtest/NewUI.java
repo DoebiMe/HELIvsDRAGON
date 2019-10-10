@@ -14,7 +14,7 @@ public class NewUI extends Application {
     static final int OUT_OF_SCREEN_MAX_WIDTH = SCREEN_MAX_WIDTH + OUT_OF_SCREEN_ZONE;
     static final int OUT_OF_SCREEN_MAX_HEIGHT = SCREEN_MAX_HEIGHT + OUT_OF_SCREEN_ZONE;
     static final int OUT_OF_SCREEN_MIN_WIDTH = 0 - OUT_OF_SCREEN_ZONE;
-    static final int OUT_OF_SCREEN_MIN_HEIGTH = 0 - OUT_OF_SCREEN_ZONE;
+    static final int OUT_OF_SCREEN_MIN_HEIGHT = 0 - OUT_OF_SCREEN_ZONE;
     private static ObservableList<Node> myNodes;
     private static Pane myPane = null;
     private static boolean initialized = false;
@@ -34,6 +34,8 @@ public class NewUI extends Application {
         launch();
     }
 
+
+
     static boolean isCollisionBasedOnImageView(ImageView first, ImageView second) {
         return first.getBoundsInParent().intersects(second.getBoundsInParent());
     }
@@ -44,16 +46,20 @@ public class NewUI extends Application {
         return imageView;
     }
 
-    static  void updateSpriteImage(ImageView imageView, int imageIndex) {
+    static void setSpriteVisability(ImageView imageView,boolean visible) {
+        imageView.setVisible(visible);
+    }
+
+    static void updateSpriteImage(ImageView imageView, int imageIndex) {
         imageView.setImage(NewImageListAndFunctions.getImageFromListAtIndex(imageIndex));
     }
 
-    static void  positionSprite(ImageView imageView, int x, int y) {
+    static void positionSprite(ImageView imageView, int x, int y) {
         imageView.setLayoutX(x);
         imageView.setLayoutY(y);
     }
 
-    static void rotateSprite(ImageView imageView, int degree) {
+    static void rotateSprite(ImageView imageView, double degree) {
         imageView.setRotate(degree);
     }
 
@@ -64,7 +70,7 @@ public class NewUI extends Application {
 
     static void updateSpriteOnUI(NewSpriteLogic spriteToUpdate) {
         ImageView nodeToUpdate = spriteToUpdate.getImageView();
-        if (nodeToUpdate == null) return ;
+        if (nodeToUpdate == null) return;
         nodeToUpdate.setLayoutX(spriteToUpdate.getxPos());
         nodeToUpdate.setLayoutY(spriteToUpdate.getyPos());
         nodeToUpdate.setImage(NewImageListAndFunctions.

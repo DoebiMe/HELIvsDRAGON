@@ -11,6 +11,7 @@ public class NewTaskDelegator {
     private ArrayList<NewSpriteLogic> spritesToWaste = new ArrayList<>();
     private NewBulletsLogic myBulletsLogic = new NewBulletsLogic();
     private NewSpriteLogic myHeliLogic = null;
+    private NewSpriteLogic myDialog = null;
     private NewScoreBoard myScoreBoard = null;
     private static int bulletCreateDivider = 0;
     private static final int BULLET_DIVIDER_SET_POINT = 20;
@@ -27,6 +28,7 @@ public class NewTaskDelegator {
         disposeSpritesToWaste();
         handleKeysFromUI();
         myScoreBoard.executeThingsToDoDependingOnCurrentTimeTaskDivider();
+        myDialog.executeThingsToDoDependingOnCurrentTimeTaskDivider();
     }
 
     private void initializeDelegator() {
@@ -38,7 +40,12 @@ public class NewTaskDelegator {
         allSprites.add(myHeliLogic);
         myHeliLogic.setImageView(NewUI.createNodeOnUI());
 
-        myScoreBoard = new NewScoreBoard(10);
+        myScoreBoard = new NewScoreBoard(  10);
+
+        myDialog = new NewDialog(10,NewDialogType.NEXT_LEVEL);
+        allSprites.add(myDialog);
+        myDialog.setImageView(NewUI.createNodeOnUI());
+
         isInitialized = true;
     }
 
@@ -95,9 +102,15 @@ public class NewTaskDelegator {
                 collect(Collectors.toList());
     }
 
-    private NewSpriteLogic getMyHeliLogic() {
+    NewSpriteLogic getMyHeliLogic() {
         return allSprites.stream()
                 .filter(element -> element.getTypeLogic() == NewSpriteLogicType.HELICOPTER)
+                .findFirst().get();
+    }
+
+    public NewSpriteLogic getImageViewOfSingleType(NewSpriteLogicType typeToGet) {
+        return allSprites.stream()
+                .filter( element -> element.getTypeLogic() == typeToGet)
                 .findFirst().get();
     }
 

@@ -8,7 +8,8 @@ import java.util.Arrays;
 
 class NewScoreBoard {
 
-    public enum ThingsToDo{NORMAL,TURN_HITS};
+    public enum ThingsToDo {NORMAL, TURN_HITS}
+
     private double turnHitsValue;
     private ThingsToDo thingsToDo;
 
@@ -29,7 +30,7 @@ class NewScoreBoard {
     NewScoreBoard(int setPointTimeTaskDivider) {
         this.setPointTimeTaskDivider = setPointTimeTaskDivider;
         currentTimeTaskDivider = setPointTimeTaskDivider;
-        turnHitsValue = 1;
+        turnHitsValue = 0;
         loadAllImagesToList();
         createNodesForBullets();
         createNodesForHits();
@@ -37,14 +38,13 @@ class NewScoreBoard {
     }
 
 
-    void setThingsToDo(ThingsToDo thingsToDo){
+    void setThingsToDo(ThingsToDo thingsToDo) {
         this.thingsToDo = thingsToDo;
+        turnHitsValue = 0.1;
     }
 
     boolean executeThingsToDoDependingOnCurrentTimeTaskDivider() {
-        System.out.println("Before");
         if (thingsToDo == ThingsToDo.NORMAL) return false;
-        System.out.println("After "+currentTimeTaskDivider);
         if (--currentTimeTaskDivider <= 0) {
             currentTimeTaskDivider = setPointTimeTaskDivider;
             executeThingsToDo();
@@ -52,18 +52,17 @@ class NewScoreBoard {
         }
         return false;
     }
-    private void executeThingsToDo(){
-        System.out.println("jaja" + turnHitsValue);
+
+    private void executeThingsToDo() {
         if (thingsToDo == ThingsToDo.TURN_HITS) {
-            if (turnHitsValue > 0) {
-                for (ImageView hitView : nodesForHits) {
-                    turnHitsValue -= 0.1;
-                    NewUI.rotateSprite(hitView,(int)(turnHitsValue * 40) );
-                }
-            } else
-            {
-                turnHitsValue = 1;
+            if ((turnHitsValue > 0) && (turnHitsValue < 360)) {
+                turnHitsValue += 10;
+            } else {
+                turnHitsValue = 0;
                 thingsToDo = ThingsToDo.NORMAL;
+            }
+            for (ImageView hitView : nodesForHits) {
+                NewUI.rotateSprite(hitView, turnHitsValue);
             }
         }
     }
@@ -126,6 +125,7 @@ class NewScoreBoard {
     private void createNodesForHits() {
         initialiseNodes(MAX_NODES_FOR_HITS, nodesForHits, 180);
     }
+
     private void initialiseNodes(int maxNodes, ImageView[] nodes, int i) {
         for (int indexer = 0; indexer < maxNodes; indexer++) {
             initialiseNodesWithImage(indexer, nodes, i);
@@ -139,9 +139,9 @@ class NewScoreBoard {
 
     private void initialiseNodesWithImage(int indexer, ImageView[] nodes, int horizontalStartPosition) {
         nodes[indexer] = NewUI.createNodeOnUI();
-        NewUI.updateSpriteImage(nodes[indexer],START_INDEX_IMAGE_ARRAY);
-        NewUI.positionSprite(nodes[indexer],horizontalStartPosition + indexer * 25,-30);
-        NewUI.scaleSprite(nodes[indexer],0.4);
-        NewUI.rotateSprite(nodes[indexer],25);
+        NewUI.updateSpriteImage(nodes[indexer], START_INDEX_IMAGE_ARRAY);
+        NewUI.positionSprite(nodes[indexer], horizontalStartPosition + indexer * 25, -30);
+        NewUI.scaleSprite(nodes[indexer], 0.4);
+        NewUI.rotateSprite(nodes[indexer], 25);
     }
 }

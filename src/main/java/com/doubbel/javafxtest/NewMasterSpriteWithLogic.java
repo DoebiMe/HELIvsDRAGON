@@ -11,24 +11,7 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     private int currentTimeTaskDivider;
     private int currentImageIndex;
     private boolean changedCondition;
-
-    @Override
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    @Override
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
     private ImageView imageView;
-
-
-    public NewSpriteLogicType getTypeLogic() {
-        return typeLogic;
-    }
-
     private NewSpriteLogicType typeLogic;
 
     NewMasterSpriteWithLogic(NewSpriteLogicType type) {
@@ -37,24 +20,9 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     }
 
     @Override
-    public int getxPos() {
-        return xPos;
-    }
-
-    @Override
-    public int getyPos() {
-        return yPos;
-    }
-
-    @Override
     public void setCurrentImageToIndex(int index) {
         currentImageIndex = index;
         changedCondition = true;
-    }
-
-    @Override
-    public int getCurrentImageIndex() {
-        return currentImageIndex;
     }
 
     @Override
@@ -88,11 +56,6 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     }
 
     @Override
-    public int getCurrentTimeTaskDivider() {
-        return currentTimeTaskDivider;
-    }
-
-    @Override
     public boolean executeThingsToDoDependingOnCurrentTimeTaskDivider() {
         currentTimeTaskDivider--;
         if (currentTimeTaskDivider <= 0) {
@@ -108,4 +71,38 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
 
     @Override
     public abstract void loadAllImagesToList();
+
+    @Override
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    @Override
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    @Override
+    public int getCurrentTimeTaskDivider() {
+        return currentTimeTaskDivider;
+    }
+
+    public NewSpriteLogicType getTypeLogic() {
+        return typeLogic;
+    }
+
+    @Override
+    public int getCurrentImageIndex() {
+        return currentImageIndex;
+    }
+
+    @Override
+    public int getxPos() {
+        return xPos;
+    }
+
+    @Override
+    public int getyPos() {
+        return yPos;
+    }
 }

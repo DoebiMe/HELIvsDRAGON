@@ -5,5 +5,6 @@ public enum NewSpriteLogicType {
     DRAGON,
     BULLET,
     NUMBERS,
-    BACKGROUND
+    BACKGROUND,
+    DIALOG
 }
