@@ -1,9 +1,7 @@
 package com.doubbel.javafxtest;
 
-import javafx.scene.image.ImageView;
-
 public class NewDialog extends NewMasterSpriteWithLogic {
-    private NewDialogType myDialogType = NewDialogType.PAUZE;
+    private NewDialogType myDialogType;
     private int currentTimeTaskDivider;
     private int setPointTimeTaskDivider;
 
@@ -11,16 +9,15 @@ public class NewDialog extends NewMasterSpriteWithLogic {
         super(NewSpriteLogicType.DIALOG);
         this.setPointTimeTaskDivider = setPointTimeTaskDivider;
         loadAllImagesToList();
-        setCurrentImageToIndex(80);
-
+        myDialogType = NewDialogType.NEXT_LEVEL;
     }
 
     @Override
     public void loadAllImagesToList() {
-        System.out.println(NewImageListAndFunctions.
-                loadImageReturnSuccesCondition("nextlevel.png", 80));
         NewImageListAndFunctions.
-                loadImageReturnSuccesCondition("heli-2.png", 81);
+                loadImageReturnSuccesCondition("nextlevel.png", 80);
+        NewImageListAndFunctions.
+                loadImageReturnSuccesCondition("hitenter.png", 81);
         NewImageListAndFunctions.
                 loadImageReturnSuccesCondition("heli-3.png", 82);
         NewImageListAndFunctions.
@@ -28,41 +25,35 @@ public class NewDialog extends NewMasterSpriteWithLogic {
     }
 
     void setImageInFunctionOfDialogType() {
-
         switch (myDialogType) {
             case VOID: {
                 NewUI.setSpriteVisability(getImageView(), false);
                 break;
             }
             case NEXT_LEVEL: {
+                setCurrentImageToIndex(80);
                 NewUI.setSpriteVisability(getImageView(), true);
+            }
+            case PAUZE: {
+                setCurrentImageToIndex(81);
+                NewUI.setSpriteVisability(getImageView(), true);
+                break;
             }
             case DEAD: {
                 NewUI.setSpriteVisability(getImageView(), true);
                 break;
             }
-            case PAUZE: {
-                NewUI.setSpriteVisability(getImageView(), true);
-
-                break;
-            }
             case GET_READY: {
-                if (true) ; // moet nog aangepast worden
-                NewUI.setSpriteVisability(getImageView(), true);
+                NewUI.setSpriteVisability(getImageView(), !false);
                 break;
             }
         }
-
-
+        setLocationAbsolute((int) NewUI.calculateSpritePosLeftToCenterSpriteOnUI(getImageView()),
+                (int) NewUI.calculateSpritePosTopToCenterSpriteOnUI(getImageView()));
     }
 
-    void setMyDialogType(NewDialogType myDialogType) {
-        this.myDialogType = myDialogType;
-        setImageInFunctionOfDialogType();
-    }
 
     public boolean executeThingsToDoDependingOnCurrentTimeTaskDivider() {
-        //if (myDialogType == NewDialogType.VOID) return false;
         if (--currentTimeTaskDivider <= 0) {
             currentTimeTaskDivider = setPointTimeTaskDivider;
             executeThingsToDo();
@@ -73,14 +64,14 @@ public class NewDialog extends NewMasterSpriteWithLogic {
 
     @Override
     public void executeThingsToDo() {
-        //System.out.println("Hier");
         if (NewKeyHandler.keysOfInterest[NewKeyHandler.keyEnter]) {
-            setCurrentImageToIndex(2);
-        } else {
-            System.out.println("Hier");
-            setCurrentImageToIndex(80);
+            myDialogType = NewDialogType.VOID;
+            setImageInFunctionOfDialogType();
+            return;
         }
-
-
+        if (NewKeyHandler.keysOfInterest[NewKeyHandler.key0]) {
+            myDialogType = NewDialogType.PAUZE;
+            setImageInFunctionOfDialogType();
+        }
     }
 }

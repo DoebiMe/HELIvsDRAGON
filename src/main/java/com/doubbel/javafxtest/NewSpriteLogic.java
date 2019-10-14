@@ -3,15 +3,15 @@ package com.doubbel.javafxtest;
 import javafx.scene.image.ImageView;
 
 interface NewSpriteLogic {
-    int getxPos();
+    double getXPos();
 
-    int getyPos();
+    double getYPos();
 
     NewSpriteLogicType getTypeLogic();
 
-    void setLocationAbsolute(int xPos, int yPos);
+    void setLocationAbsolute(double xPos, double yPos);
 
-    void setLocationRelative(int xMovement, int yMovement);
+    void setLocationRelative(double xMovement, double yMovement);
 
     NewSpriteLogic setSetPointTimeTaskDivider(int setPointTimeTaskDivider);
 

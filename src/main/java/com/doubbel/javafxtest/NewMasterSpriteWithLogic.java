@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 
 public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
 
-    private int xPos;
-    private int yPos;
+    private double xPos;
+    private double yPos;
     private int setPointTimeTaskDivider;
     private int currentTimeTaskDivider;
     private int currentImageIndex;
@@ -26,14 +26,14 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     }
 
     @Override
-    public void setLocationAbsolute(int xPos, int yPos) {
+    public void setLocationAbsolute(double xPos, double yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
         changedCondition = true;
     }
 
     @Override
-    public void setLocationRelative(int xMovement, int yMovement) {
+    public void setLocationRelative(double xMovement, double yMovement) {
         xPos += xMovement;
         yPos += yMovement;
         changedCondition = true;
@@ -97,12 +97,13 @@ public abstract class NewMasterSpriteWithLogic implements NewSpriteLogic {
     }
 
     @Override
-    public int getxPos() {
+    public double getXPos() {
         return xPos;
     }
 
     @Override
-    public int getyPos() {
+    public double getYPos() {
         return yPos;
     }
+
 }

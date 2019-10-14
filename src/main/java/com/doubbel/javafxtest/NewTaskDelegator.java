@@ -11,7 +11,7 @@ public class NewTaskDelegator {
     private ArrayList<NewSpriteLogic> spritesToWaste = new ArrayList<>();
     private NewBulletsLogic myBulletsLogic = new NewBulletsLogic();
     private NewSpriteLogic myHeliLogic = null;
-    private NewSpriteLogic myDialog = null;
+    private NewDialog myDialog = null;
     private NewScoreBoard myScoreBoard = null;
     private static int bulletCreateDivider = 0;
     private static final int BULLET_DIVIDER_SET_POINT = 20;
@@ -45,7 +45,8 @@ public class NewTaskDelegator {
         myDialog = new NewDialog(10,NewDialogType.NEXT_LEVEL);
         allSprites.add(myDialog);
         myDialog.setImageView(NewUI.createNodeOnUI());
-
+        myDialog.setCurrentImageToIndex(80);
+        myDialog.setImageInFunctionOfDialogType();
         isInitialized = true;
     }
 
@@ -68,8 +69,8 @@ public class NewTaskDelegator {
             myHeliLogic = getMyHeliLogic();
             NewSpriteLogic bulletToAdd =
                     myBulletsLogic.
-                            createBullet(myHeliLogic.getxPos() + 50,
-                                    myHeliLogic.getyPos() + 20);
+                            createBullet(myHeliLogic.getXPos() + 50,
+                                    myHeliLogic.getYPos() + 20);
             allSprites.add(bulletToAdd);
             ImageView bulletToAddImageView = NewUI.createNodeOnUI();
             NewUI.scaleSprite(bulletToAddImageView, 0.2);
@@ -102,13 +103,13 @@ public class NewTaskDelegator {
                 collect(Collectors.toList());
     }
 
-    NewSpriteLogic getMyHeliLogic() {
+    private NewSpriteLogic getMyHeliLogic() {
         return allSprites.stream()
                 .filter(element -> element.getTypeLogic() == NewSpriteLogicType.HELICOPTER)
                 .findFirst().get();
     }
 
-    public NewSpriteLogic getImageViewOfSingleType(NewSpriteLogicType typeToGet) {
+    private NewSpriteLogic getImageViewOfSingleType(NewSpriteLogicType typeToGet) {
         return allSprites.stream()
                 .filter( element -> element.getTypeLogic() == typeToGet)
                 .findFirst().get();
@@ -121,13 +122,13 @@ public class NewTaskDelegator {
 
     private void loopOverAllBulletsForEOLCheck() {
         getSpritesOfType(NewSpriteLogicType.BULLET).stream().
-                filter(bulletToTest -> bulletToTest.getxPos() > NewUI.OUT_OF_SCREEN_MAX_WIDTH)
+                filter(bulletToTest -> bulletToTest.getXPos() > NewUI.OUT_OF_SCREEN_MAX_WIDTH)
                 .forEach(spritesToWaste::add);
     }
 
     private void loopOverAllDragonsForEOLCheck() {
         getSpritesOfType(NewSpriteLogicType.DRAGON).stream().
-                filter(dragonToTest -> dragonToTest.getxPos() <= NewUI.OUT_OF_SCREEN_MIN_WIDTH).
+                filter(dragonToTest -> dragonToTest.getXPos() <= NewUI.OUT_OF_SCREEN_MIN_WIDTH).
                 forEach(spritesToWaste::add);
     }
 

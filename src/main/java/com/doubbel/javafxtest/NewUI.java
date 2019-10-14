@@ -34,8 +34,6 @@ public class NewUI extends Application {
         launch();
     }
 
-
-
     static boolean isCollisionBasedOnImageView(ImageView first, ImageView second) {
         return first.getBoundsInParent().intersects(second.getBoundsInParent());
     }
@@ -44,6 +42,14 @@ public class NewUI extends Application {
         ImageView imageView = new ImageView();
         myNodes.addAll(imageView);
         return imageView;
+    }
+
+    static double calculateSpritePosLeftToCenterSpriteOnUI(ImageView imageView) {
+
+        return  (SCREEN_MAX_WIDTH /2) - (imageView.getLayoutBounds().getWidth() / 2);
+    }
+    static double calculateSpritePosTopToCenterSpriteOnUI(ImageView imageView) {
+        return (SCREEN_MAX_HEIGHT / 2) - (imageView.getLayoutBounds().getHeight() / 2);
     }
 
     static void setSpriteVisability(ImageView imageView,boolean visible) {
@@ -71,8 +77,8 @@ public class NewUI extends Application {
     static void updateSpriteOnUI(NewSpriteLogic spriteToUpdate) {
         ImageView nodeToUpdate = spriteToUpdate.getImageView();
         if (nodeToUpdate == null) return;
-        nodeToUpdate.setLayoutX(spriteToUpdate.getxPos());
-        nodeToUpdate.setLayoutY(spriteToUpdate.getyPos());
+        nodeToUpdate.setLayoutX(spriteToUpdate.getXPos());
+        nodeToUpdate.setLayoutY(spriteToUpdate.getYPos());
         nodeToUpdate.setImage(NewImageListAndFunctions.
                 getImageFromListAtIndex(spriteToUpdate.getCurrentImageIndex()));
     }

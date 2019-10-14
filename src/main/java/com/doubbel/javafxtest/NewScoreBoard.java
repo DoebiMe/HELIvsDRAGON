@@ -56,7 +56,7 @@ class NewScoreBoard {
     private void executeThingsToDo() {
         if (thingsToDo == ThingsToDo.TURN_HITS) {
             if ((turnHitsValue > 0) && (turnHitsValue < 360)) {
-                turnHitsValue += 10;
+                turnHitsValue += 30;
             } else {
                 turnHitsValue = 0;
                 thingsToDo = ThingsToDo.NORMAL;

@@ -10,7 +10,7 @@ public class NewBackGroundLogic extends NewMasterSpriteWithLogic {
 
     @Override
     public void executeThingsToDo() {
-        if (getxPos() > BACKGROUND_RESET_POINT_HORIZONTAL) {
+        if (getXPos() > BACKGROUND_RESET_POINT_HORIZONTAL) {
             setLocationAbsolute(0, 0);
         } else {
             setLocationRelative(-1, 0);
