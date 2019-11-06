@@ -48,8 +48,8 @@ public class NewDialog extends NewMasterSpriteWithLogic {
                 break;
             }
         }
-        setLocationAbsolute((int) NewUI.calculateSpritePosLeftToCenterSpriteOnUI(getImageView()),
-                (int) NewUI.calculateSpritePosTopToCenterSpriteOnUI(getImageView()));
+        setLocationAbsolute( NewUI.calculateSpritePosLeftToCenterSpriteOnUI(getImageView()),
+                NewUI.calculateSpritePosTopToCenterSpriteOnUI(getImageView()));
     }
 
 
@@ -59,6 +59,7 @@ public class NewDialog extends NewMasterSpriteWithLogic {
             executeThingsToDo();
             return true;
         }
+        setImageInFunctionOfDialogType();//****************************************************
         return false;
     }
 

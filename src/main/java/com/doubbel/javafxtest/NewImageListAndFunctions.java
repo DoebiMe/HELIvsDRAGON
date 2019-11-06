@@ -41,8 +41,8 @@ class NewImageListAndFunctions {
     }
 
     static Image getImageFromListAtIndex(int index) {
-        return ((index >= MAX_IMAGES_IN_LIST) || (allImages[index][indexTypes.IS_LOADED.value()] == null)) ?
-                null : (Image) allImages[index][indexTypes.IMAGE_BIN.value()];
+        return ((index >= MAX_IMAGES_IN_LIST) || (allImages[index][indexTypes.IS_LOADED.value()] == null))
+                ? null : (Image) allImages[index][indexTypes.IMAGE_BIN.value()];
     }
 
 }
